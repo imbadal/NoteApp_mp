@@ -148,14 +148,15 @@ class NoteListFragment : Fragment(), NoteClickListener {
     }
 
     private fun shareNote(note: NoteModel) {
-        val imageUri: Uri? = getImageUri(mContext, note.icon)
+        val message = note.noteTitle + "\n" + note.noteDetails
+        val pictureUri: Uri? = getImageUri(mContext, note.icon)
         val shareIntent = Intent()
         shareIntent.action = Intent.ACTION_SEND
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "Hello")
-        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri)
-        shareIntent.type = "image/jpeg"
+        shareIntent.putExtra(Intent.EXTRA_TEXT, message)
+        shareIntent.putExtra(Intent.EXTRA_STREAM, pictureUri)
+        shareIntent.type = "image/png"
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        startActivity(Intent.createChooser(shareIntent, "send"))
+        startActivity(Intent.createChooser(shareIntent, "Share"))
     }
 
     fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
