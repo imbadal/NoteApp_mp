@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.magicpinnoteapp.NoteBottomSheetDialog
+import com.example.magicpinnoteapp.view.dialog.NoteBottomSheetDialog
 import com.example.magicpinnoteapp.R
 import com.example.magicpinnoteapp.adapter.NoteClickListener
 import com.example.magicpinnoteapp.adapter.NotesAdapter
@@ -40,14 +40,10 @@ class NoteListFragment : Fragment(), NoteClickListener {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentNoteListBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         initObservers()
         initClickListener()
+        return binding.root
     }
 
     private fun initObservers() {

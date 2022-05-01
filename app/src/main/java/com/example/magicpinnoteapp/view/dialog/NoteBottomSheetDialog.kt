@@ -1,4 +1,4 @@
-package com.example.magicpinnoteapp
+package com.example.magicpinnoteapp.view.dialog
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
