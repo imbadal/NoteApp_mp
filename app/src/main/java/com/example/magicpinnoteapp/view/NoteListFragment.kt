@@ -21,11 +21,11 @@ import com.example.magicpinnoteapp.adapter.NotesAdapter
 import com.example.magicpinnoteapp.databinding.BottomSheetLayoutBinding
 import com.example.magicpinnoteapp.databinding.FragmentNoteListBinding
 import com.example.magicpinnoteapp.db.entity.NoteModel
+import com.example.magicpinnoteapp.utils.NoteUtils
 import com.example.magicpinnoteapp.view.dialog.NoteBottomSheetDialog
 import com.example.magicpinnoteapp.viewmodel.NoteViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.io.ByteArrayOutputStream
-
 
 class NoteListFragment : Fragment(), NoteClickListener {
     lateinit var binding: FragmentNoteListBinding
@@ -56,7 +56,6 @@ class NoteListFragment : Fragment(), NoteClickListener {
         inflater.inflate(R.menu.menu, menu);
         super.onCreateOptionsMenu(menu, inflater)
     }
-
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
@@ -101,7 +100,6 @@ class NoteListFragment : Fragment(), NoteClickListener {
         })
     }
 
-
     override fun onMoreClick(note: NoteModel) {
         showBtnSheet(note)
     }
@@ -136,7 +134,7 @@ class NoteListFragment : Fragment(), NoteClickListener {
         }
 
         bottomSheetBinding.tvShare.setOnClickListener {
-            shareNote(note)
+            NoteUtils.shareNote(mContext, note)
             bottomSheetDialog.dismiss()
         }
 
@@ -147,25 +145,6 @@ class NoteListFragment : Fragment(), NoteClickListener {
         }
     }
 
-    private fun shareNote(note: NoteModel) {
-        val message = note.noteTitle + "\n" + note.noteDetails
-        val pictureUri: Uri? = getImageUri(mContext, note.icon)
-        val shareIntent = Intent()
-        shareIntent.action = Intent.ACTION_SEND
-        shareIntent.putExtra(Intent.EXTRA_TEXT, message)
-        shareIntent.putExtra(Intent.EXTRA_STREAM, pictureUri)
-        shareIntent.type = "image/png"
-        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        startActivity(Intent.createChooser(shareIntent, "Share"))
-    }
-
-    fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
-        val bytes = ByteArrayOutputStream()
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path =
-            MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
-        return Uri.parse(path)
-    }
 
     private fun displayNote(note: NoteModel) {
         val bottomSheetDialog = NoteBottomSheetDialog()
