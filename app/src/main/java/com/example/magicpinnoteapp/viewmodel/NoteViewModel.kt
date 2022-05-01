@@ -49,4 +49,14 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         }
         return true
     }
+
+    fun getFilteredList(query: String?): List<NoteModel> {
+        query?.let {
+            val notes = allNotes.value
+            return notes?.filter {
+                it.noteTitle.contains(query, true) || it.noteDetails?.contains(query, true) ?: false
+            } ?: listOf()
+        }
+        return listOf()
+    }
 }
